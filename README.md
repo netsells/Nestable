@@ -93,6 +93,11 @@ These advanced config options are also available:
 
 ## Change Log
 
+### 8th April 2014
+
+* [tchapi] Add a "start-collapsed" behaviour based on [vincenttheeten](https://github.com/vincenttheeten)'s idea exposed here : [PR](https://github.com/dbushell/Nestable/pull/103)
+  * Elements that have the `collapsedClass` on loading will be collapsed automatically
+
 ### 15th January 2014
 
 * [tchapi] Merge a lots of branches from the different pull requests that were still waiting in the original repo :

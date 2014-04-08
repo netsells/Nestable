@@ -101,7 +101,7 @@ These advanced config options are also available:
 ### 15th January 2014
 
 * [tchapi] Merge a lots of branches from the different pull requests that were still waiting in the original repo :
-   * fix dd-handle on sub parents _by_ mean-cj [mean-cj](https://github.com/mean-cj/Nestable)
+   * fix dd-handle on sub parents _by_ [mean-cj](https://github.com/mean-cj/Nestable)
    * new `toArray()` function _by_ [Goktug](https://github.com/Goktug/Nestable)
    * fixed bug for chrome, when there are multiple lists _by_ [andremtoy](https://github.com/andrewmtoy/Nestable.git)
    * Fix for IE7 nd IE 8 _by_ [jasonruech](https://github.com/jasonruesch/Nestable)

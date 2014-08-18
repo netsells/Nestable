@@ -3,7 +3,14 @@ Nestable
 
 ## PLEASE NOTE
 
-**https://github.com/dbushell cannot provide any support or guidance beyond this README, but this repo is still under development somehow.**
+This repo is a fork of [Nestable](https://github.com/dbushell/NESTABLE) by [dbushell](https://github.com/dbushell), who unfortunately cannot provide anymore support. The vast majority of pull requests from the original repository have been integrated here and tested in production.
+
+I will continue the development of this fork according to my own needs or if I find bugs.
+
+This being said, **[@RamonSmit](https://github.com/RamonSmit) has apparently taken the lead on an active dev branch of Nestable [here](https://github.com/RamonSmit/Nestable).**
+
+
+
 
 * * *
 
@@ -11,7 +18,6 @@ Nestable
 
 [**Try Nestable Demo**](http://dbushell.github.com/Nestable/)
 
-Nestable is an experimental example and not under active development. If it suits your requirements feel free to expand upon it!
 
 ## Usage
 

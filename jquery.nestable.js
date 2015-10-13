@@ -50,7 +50,10 @@
             group           : 0,
             maxDepth        : 5,
             threshold       : 20,
-            callback        : null
+            callback        : null,
+            limitByType     : false,
+            limitByTypeKey  : 'type',
+            limitByTypeChildrenKey: 'allowed-children'
         };
 
     function Plugin(element, options)
@@ -418,13 +421,34 @@
                 // reset move distance on x-axis for new phase
                 mouse.distAxX = 0;
                 prev = this.placeEl.prev(opt.itemNodeName);
+
+                draggingItem = $(this.dragEl).find('.' + opt.itemClass);
+                draggingItemType = draggingItem.data(opt.limitByTypeKey);
+
+                prevAllowedChildren = $(prev).data(opt.limitByTypeChildrenKey);
+
+                if (prevAllowedChildren != null) {
+                    allowedChildren = prevAllowedChildren;
+                } else {
+                    // If null, that means any are allowed, so we'll just allow the item in question
+                    allowedChildren = [draggingItemType];
+                }
+
+                canCreateChild = true;
+
+                if (opt.limitByType) {
+                    if (allowedChildren.indexOf(draggingItemType) === -1) {
+                        canCreateChild = false;
+                    }
+                }
+
                 // increase horizontal level if previous sibling exists, is not collapsed, and can have children
                 if (mouse.distX > 0 && prev.length && !prev.hasClass(opt.collapsedClass) && !prev.hasClass(opt.noChildrenClass)) {
                     // cannot increase level when item above is collapsed
                     list = prev.find(opt.listNodeName).last();
                     // check if depth limit has reached
                     depth = this.placeEl.parents(opt.listNodeName).length;
-                    if (depth + this.dragDepth <= opt.maxDepth) {
+                    if (depth + this.dragDepth <= opt.maxDepth && canCreateChild) {
                         // create new sub-level if one doesn't exist
                         if (!list.length) {
                             list = $('<' + opt.listNodeName + '/>').addClass(opt.listClass);

@@ -53,7 +53,7 @@
             callback        : null,
             limitByType     : false,
             limitByTypeKey  : 'type',
-            limitByTypeChildrenKey: 'allowed-children'
+            limitByTypeChildrenKey: 'allowedchildren'
         };
 
     function Plugin(element, options)
@@ -157,7 +157,13 @@
                     items.each(function()
                     {
                         var li   = $(this),
-                            item = $.extend({}, li.data()),
+                            elementData = li.data();
+
+                        // We should remove the type limits
+                        delete elementData[list.options.limitByTypeKey];
+                        delete elementData[list.options.limitByTypeChildrenKey];
+
+                        var item = $.extend({}, elementData),
                             sub  = li.children(list.options.listNodeName);
                         if (sub.length) {
                             item.children = step(sub, depth + 1);

@@ -53,7 +53,8 @@
             callback        : null,
             limitByType     : false,
             limitByTypeKey  : 'type',
-            limitByTypeChildrenKey: 'allowedchildren'
+            limitByTypeChildrenKey: 'allowedchildren',
+            collapsedByDefault: false
         };
 
     function Plugin(element, options)
@@ -82,6 +83,10 @@
                 list.setParent(item);
                 if (parent.hasClass(list.options.collapsedClass)) {
                    list.collapseItem(parent.parent());
+                }
+
+                if (list.options.collapsedByDefault) {
+                    list.collapseItem(item);
                 }
             });
 

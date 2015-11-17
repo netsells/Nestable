@@ -112,7 +112,7 @@
 
                 var draggingItem = handle.closest('.' + list.options.itemClass);
 
-                if (draggingItem.data(list.options.restrictParentKey) === 1 || draggingItem.find('[' + list.options.restrictParentKey + '=1]').length) {
+                if (draggingItem.data(list.options.restrictParentKey) === 1 || draggingItem.find('[data-' + list.options.restrictParentKey + '=1]').length) {
                     return;
                 }
 

@@ -33,28 +33,29 @@
         eCancel = hasTouch ? 'touchcancel' : 'mouseup';
 
     var defaults = {
-            listNodeName    : 'ol',
-            itemNodeName    : 'li',
-            rootClass       : 'dd',
-            listClass       : 'dd-list',
-            itemClass       : 'dd-item',
-            dragClass       : 'dd-dragel',
-            handleClass     : 'dd-handle',
-            collapsedClass  : 'dd-collapsed',
-            placeClass      : 'dd-placeholder',
-            noDragClass     : 'dd-nodrag',
-            noChildrenClass : 'dd-nochildren',
-            emptyClass      : 'dd-empty',
-            expandBtnHTML   : '<button data-action="expand" type="button">Expand</button>',
-            collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
-            group           : 0,
-            maxDepth        : 5,
-            threshold       : 20,
-            callback        : null,
-            limitByType     : false,
-            limitByTypeKey  : 'type',
+            listNodeName:           'ol',
+            itemNodeName:           'li',
+            rootClass:              'dd',
+            listClass:              'dd-list',
+            itemClass:              'dd-item',
+            dragClass:              'dd-dragel',
+            handleClass:            'dd-handle',
+            collapsedClass:         'dd-collapsed',
+            placeClass:             'dd-placeholder',
+            noDragClass:            'dd-nodrag',
+            noChildrenClass:        'dd-nochildren',
+            emptyClass:             'dd-empty',
+            expandBtnHTML:          '<button data-action="expand" type="button">Expand</button>',
+            collapseBtnHTML:        '<button data-action="collapse" type="button">Collapse</button>',
+            group:                  0,
+            maxDepth:               5,
+            threshold:              20,
+            callback:               null,
+            limitByType:            false,
+            limitByTypeKey:         'type',
             limitByTypeChildrenKey: 'allowedchildren',
-            collapsedByDefault: false
+            restrictParentKey:      'restrict-parents',
+            collapsedByDefault:     false
         };
 
     function Plugin(element, options)
@@ -108,6 +109,13 @@
             var onStartEvent = function(e)
             {
                 var handle = $(e.target);
+
+                var draggingItem = handle.closest('.' + list.options.itemClass);
+
+                if (draggingItem.data(list.options.restrictParentKey) === 1 || draggingItem.find('[' + list.options.restrictParentKey + '=1]').length) {
+                    return;
+                }
+
                 if (!handle.hasClass(list.options.handleClass)) {
                     if (handle.closest('.' + list.options.noDragClass).length) {
                         return;

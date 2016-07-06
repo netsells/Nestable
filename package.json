@@ -1,0 +1,35 @@
+{
+  "name": "netsells-nestable",
+  "version": "1.0.0",
+  "description": "Drag & drop hierarchical list with mouse and touch compatibility (jQuery plugin) - Netsells fork",
+  "main": "dist/nestable.js",
+  "dependencies": {
+    "es6-promise": "latest"
+  },
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-rename": "latest",
+    "gulp-rollup": "latest",
+    "gulp-uglify": "latest",
+    "rollup": "latest",
+    "uglify-js": "latest"
+  },
+  "files": [
+    "dist",
+    "jquery.nestable.js"
+  ],
+  "author": "David Bushell (@dbushell) <hi@dbushell.com> (http://dbushell.com)",
+  "contributors": [
+    "Cyril (tchapi) (http://tchap.me)",
+    "Sam Jordan <sam@samjordan.co.uk> (http://samjordan.co.uk)",
+    "Sam Turrell <sam@samturrell.co.uk> (http://samturrell.co.uk)"
+  ],
+  "keywords": [
+    "nestable"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "MIT"
+}

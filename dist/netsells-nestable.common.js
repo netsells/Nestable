@@ -39,24 +39,29 @@
         eCancel = hasTouch ? 'touchcancel' : 'mouseup';
 
     var defaults = {
-            listNodeName    : 'ol',
-            itemNodeName    : 'li',
-            rootClass       : 'dd',
-            listClass       : 'dd-list',
-            itemClass       : 'dd-item',
-            dragClass       : 'dd-dragel',
-            handleClass     : 'dd-handle',
-            collapsedClass  : 'dd-collapsed',
-            placeClass      : 'dd-placeholder',
-            noDragClass     : 'dd-nodrag',
-            noChildrenClass : 'dd-nochildren',
-            emptyClass      : 'dd-empty',
-            expandBtnHTML   : '<button data-action="expand" type="button">Expand</button>',
-            collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
-            group           : 0,
-            maxDepth        : 5,
-            threshold       : 20,
-            callback        : null
+            listNodeName:           'ol',
+            itemNodeName:           'li',
+            rootClass:              'dd',
+            listClass:              'dd-list',
+            itemClass:              'dd-item',
+            dragClass:              'dd-dragel',
+            handleClass:            'dd-handle',
+            collapsedClass:         'dd-collapsed',
+            placeClass:             'dd-placeholder',
+            noDragClass:            'dd-nodrag',
+            noChildrenClass:        'dd-nochildren',
+            emptyClass:             'dd-empty',
+            expandBtnHTML:          '<button data-action="expand" type="button">Expand</button>',
+            collapseBtnHTML:        '<button data-action="collapse" type="button">Collapse</button>',
+            group:                  0,
+            maxDepth:               5,
+            threshold:              20,
+            callback:               null,
+            limitByType:            false,
+            limitByTypeKey:         'type',
+            limitByTypeChildrenKey: 'allowedchildren',
+            restrictParentKey:      'restrict-parents',
+            collapsedByDefault:     false
         };
 
     function Plugin(element, options)
@@ -86,6 +91,10 @@
                 if (parent.hasClass(list.options.collapsedClass)) {
                    list.collapseItem(parent.parent());
                 }
+
+                if (list.options.collapsedByDefault) {
+                    list.collapseItem(item);
+                }
             });
 
             list.el.on('click', 'button', function(e) {
@@ -106,6 +115,13 @@
             var onStartEvent = function(e)
             {
                 var handle = $(e.target);
+
+                var draggingItem = handle.closest('.' + list.options.itemClass);
+
+                if (draggingItem.data(list.options.restrictParentKey) === 1 || draggingItem.find('[data-' + list.options.restrictParentKey + '=1]').length) {
+                    return;
+                }
+
                 if (!handle.hasClass(list.options.handleClass)) {
                     if (handle.closest('.' + list.options.noDragClass).length) {
                         return;
@@ -160,7 +176,13 @@
                     items.each(function()
                     {
                         var li   = $(this),
-                            item = $.extend({}, li.data()),
+                            elementData = li.data();
+
+                        // We should remove the type limits
+                        delete elementData[list.options.limitByTypeKey];
+                        delete elementData[list.options.limitByTypeChildrenKey];
+
+                        var item = $.extend({}, elementData),
                             sub  = li.children(list.options.listNodeName);
                         if (sub.length) {
                             item.children = step(sub, depth + 1);
@@ -424,13 +446,34 @@
                 // reset move distance on x-axis for new phase
                 mouse.distAxX = 0;
                 prev = this.placeEl.prev(opt.itemNodeName);
+
+                draggingItem = $(this.dragEl).find('.' + opt.itemClass);
+                draggingItemType = draggingItem.data(opt.limitByTypeKey);
+
+                prevAllowedChildren = $(prev).data(opt.limitByTypeChildrenKey);
+
+                if (prevAllowedChildren != null) {
+                    allowedChildren = prevAllowedChildren;
+                } else {
+                    // If null, that means any are allowed, so we'll just allow the item in question
+                    allowedChildren = [draggingItemType];
+                }
+
+                canCreateChild = true;
+
+                if (opt.limitByType) {
+                    if (allowedChildren.indexOf(draggingItemType) === -1) {
+                        canCreateChild = false;
+                    }
+                }
+
                 // increase horizontal level if previous sibling exists, is not collapsed, and can have children
                 if (mouse.distX > 0 && prev.length && !prev.hasClass(opt.collapsedClass) && !prev.hasClass(opt.noChildrenClass)) {
                     // cannot increase level when item above is collapsed
                     list = prev.find(opt.listNodeName).last();
                     // check if depth limit has reached
                     depth = this.placeEl.parents(opt.listNodeName).length;
-                    if (depth + this.dragDepth <= opt.maxDepth) {
+                    if (depth + this.dragDepth <= opt.maxDepth && canCreateChild) {
                         // create new sub-level if one doesn't exist
                         if (!list.length) {
                             list = $('<' + opt.listNodeName + '/>').addClass(opt.listClass);

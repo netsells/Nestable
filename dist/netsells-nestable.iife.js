@@ -1,5 +1,5 @@
 /*!
- * netsells-nestable v1.2.0
+ * netsells-nestable v1.3.0
  * Released under the MIT License.
  */
 (function () {
@@ -119,10 +119,14 @@
 
                     var draggingItem = handle.closest('.' + list.options.itemClass);
 
-                    if (draggingItem.data(list.options.restrictParentKey) === 1 || draggingItem.find('[data-' + list.options.restrictParentKey + '=1]').length) {
+                    if (['BUTTON', 'INPUT', 'A', 'SELECT'].indexOf(handle[0].tagName) > -1) {
                         return;
                     }
 
+
+                    if (draggingItem.data(list.options.restrictParentKey) === 1 || draggingItem.find('[data-' + list.options.restrictParentKey + '=1]').length) {
+                        return;
+                    }
                     if (!handle.hasClass(list.options.handleClass)) {
                         if (handle.closest('.' + list.options.noDragClass).length) {
                             return;
@@ -452,19 +456,19 @@
                     mouse.distAxX = 0;
                     prev = this.placeEl.prev(opt.itemNodeName);
 
-                    draggingItem = $(this.dragEl).find('.' + opt.itemClass);
-                    draggingItemType = draggingItem.data(opt.limitByTypeKey);
+                    var draggingItem = $(this.dragEl).find('.' + opt.itemClass);
+                    var draggingItemType = draggingItem.data(opt.limitByTypeKey);
 
-                    prevAllowedChildren = $(prev).data(opt.limitByTypeChildrenKey);
+                    var prevAllowedChildren = $(prev).data(opt.limitByTypeChildrenKey);
 
                     if (prevAllowedChildren != null) {
-                        allowedChildren = prevAllowedChildren;
+                        var allowedChildren = prevAllowedChildren;
                     } else {
                         // If null, that means any are allowed, so we'll just allow the item in question
-                        allowedChildren = [draggingItemType];
+                        var allowedChildren = [draggingItemType];
                     }
 
-                    canCreateChild = true;
+                    var canCreateChild = true;
 
                     if (opt.limitByType) {
                         if (allowedChildren.indexOf(draggingItemType) === -1) {

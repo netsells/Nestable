@@ -292,9 +292,7 @@
                 li.removeClass(this.options.collapsedClass);
                 li.children('[data-action="expand"]').hide();
                 li.children('[data-action="collapse"]').show();
-                if (!li.css('transition')) {
-                    li.children(this.options.listNodeName).show();
-                }
+                li.children(this.options.listNodeName).stop().slideDown(300);
             },
 
             collapseItem: function(li)
@@ -304,9 +302,7 @@
                     li.addClass(this.options.collapsedClass);
                     li.children('[data-action="collapse"]').hide();
                     li.children('[data-action="expand"]').show();
-                    if (!li.css('transition')) {
-                        li.children(this.options.listNodeName).hide();
-                    }
+                    li.children(this.options.listNodeName).stop().slideUp('fast');
                 }
             },
 

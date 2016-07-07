@@ -45,6 +45,6 @@ gulp.task('default', ['compress']);
 
 gulp.task('watch', function() {
   gulp.watch([
-    'src/nestable.js',
+    './jquery.nestable.js',
   ], ['compress']);
 });

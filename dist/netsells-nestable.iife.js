@@ -1,5 +1,5 @@
 /*!
- * netsells-nestable v1.0.0
+ * netsells-nestable v1.2.0
  * Released under the MIT License.
  */
 (function () {
@@ -285,7 +285,9 @@
                 li.removeClass(this.options.collapsedClass);
                 li.children('[data-action="expand"]').hide();
                 li.children('[data-action="collapse"]').show();
-                li.children(this.options.listNodeName).show();
+                if (!li.css('transition')) {
+                    li.children(this.options.listNodeName).show();
+                }
             },
 
             collapseItem: function(li)
@@ -295,7 +297,9 @@
                     li.addClass(this.options.collapsedClass);
                     li.children('[data-action="collapse"]').hide();
                     li.children('[data-action="expand"]').show();
-                    li.children(this.options.listNodeName).hide();
+                    if (!li.css('transition')) {
+                        li.children(this.options.listNodeName).hide();
+                    }
                 }
             },
 

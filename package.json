@@ -1,6 +1,6 @@
 {
   "name": "netsells-nestable",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Drag & drop hierarchical list with mouse and touch compatibility (jQuery plugin) - Netsells fork",
   "main": "dist/netsells-nestable.js",
   "dependencies": {

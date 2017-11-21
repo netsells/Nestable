@@ -1,5 +1,5 @@
 /*!
- * netsells-nestable v1.3.0
+ * netsells-nestable v1.5.0
  * Released under the MIT License.
  */
 'use strict';
@@ -9,7 +9,7 @@
  * Contributed : Cyril (tchapi) http://tchap.me
  * Dual-licensed under the BSD or MIT licenses
  */
-;(function($, window, document, undefined)
+(function($, window, document, undefined)
 {
     var hasTouch = 'ontouchstart' in window;
 
@@ -54,7 +54,7 @@
             expandBtnHTML:          '<button data-action="expand" type="button">Expand</button>',
             collapseBtnHTML:        '<button data-action="collapse" type="button">Collapse</button>',
             group:                  0,
-            maxDepth:               5,
+            maxDepth:               null,
             threshold:              20,
             callback:               null,
             limitByType:            false,
@@ -206,7 +206,7 @@
                 o = list.options,
                 sDepth = 0,
                 ret = [],
-                left = 1
+                left = 1;
 
             var items = list.el.find(o.listNodeName).first().children(o.itemNodeName);
 
@@ -477,7 +477,7 @@
                     list = prev.find(opt.listNodeName).last();
                     // check if depth limit has reached
                     depth = this.placeEl.parents(opt.listNodeName).length;
-                    if (depth + this.dragDepth <= opt.maxDepth && canCreateChild) {
+                    if ((opt.maxDepth === null || (depth + this.dragDepth <= opt.maxDepth)) && canCreateChild) {
                         // create new sub-level if one doesn't exist
                         if (!list.length) {
                             list = $('<' + opt.listNodeName + '/>').addClass(opt.listClass);
@@ -539,7 +539,7 @@
                 }
                 // check depth limit
                 depth = this.dragDepth - 1 + this.pointEl.parents(opt.listNodeName).length;
-                if (depth > opt.maxDepth) {
+                if (opt.maxDepth !== null && (depth > opt.maxDepth)) {
                     return;
                 }
                 var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);

@@ -40,18 +40,18 @@ var packageRollup = function(options) {
     entry: 'jquery.nestable.js'
   })
   .then(function(bundle) {
-    var code = bundle.generate({
+    return bundle.generate({
       format: options.format,
       banner: banner,
       moduleName: classify(pack.name)
-    }).code;
-
-    if (options.minify) {
-      code = uglify.minify(code, {
-        fromString: true
-      }).code;
-    }
-    return write(options.dest, code);
+    }).then(function(response) {
+        if (options.minify) {
+          response.code = uglify.minify(response.code, {
+            fromString: true
+          }).code;
+        }
+        return write(options.dest, response.code);
+    });
   });
 };
 

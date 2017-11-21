@@ -48,7 +48,7 @@
             expandBtnHTML:          '<button data-action="expand" type="button">Expand</button>',
             collapseBtnHTML:        '<button data-action="collapse" type="button">Collapse</button>',
             group:                  0,
-            maxDepth:               5,
+            maxDepth:               null,
             threshold:              20,
             callback:               null,
             limitByType:            false,
@@ -471,7 +471,7 @@
                     list = prev.find(opt.listNodeName).last();
                     // check if depth limit has reached
                     depth = this.placeEl.parents(opt.listNodeName).length;
-                    if (depth + this.dragDepth <= opt.maxDepth && canCreateChild) {
+                    if ((opt.maxDepth === null || (depth + this.dragDepth <= opt.maxDepth)) && canCreateChild) {
                         // create new sub-level if one doesn't exist
                         if (!list.length) {
                             list = $('<' + opt.listNodeName + '/>').addClass(opt.listClass);
@@ -533,7 +533,7 @@
                 }
                 // check depth limit
                 depth = this.dragDepth - 1 + this.pointEl.parents(opt.listNodeName).length;
-                if (depth > opt.maxDepth) {
+                if (opt.maxDepth !== null && (depth > opt.maxDepth)) {
                     return;
                 }
                 var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);
